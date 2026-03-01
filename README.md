@@ -1,8 +1,9 @@
 ### Тестовое задание real holat hackaton 2026
+### ветка main будет точкой входа в наш проект,
 
 stack: react, ts, tailwindcss, axios, zustand, shadcn
 архитектура: fsd
-https://fsd.how/ru/docs/get-started/overview/ ссылка на fsd документацию (на русском) 
+[Документация по FSD](https://fsd.how/ru/docs/get-started/overview/) на русском языке 
 
 
 app/entrypoint/ - точка входа нашего приложения
