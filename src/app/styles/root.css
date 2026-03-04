@@ -9,6 +9,8 @@
   /*----------------*/
 
   /* Gradients */
+  --gd-main: linear-gradient(90deg, rgba(168, 255, 187, 0.5) 0%, rgb(190, 183, 253,0.5) 100%);
+
   --gd-main: linear-gradient(90deg, #aaffbc 0%, #beb7fd 100%);
   --gd-cards: linear-gradient(90deg, #cbfdc7 0%, #e8ddd4 100%);
   --gd-grey: linear-gradient(90deg, #989898 0%, #181818 100%);
