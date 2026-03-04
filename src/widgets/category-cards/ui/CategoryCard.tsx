@@ -1,5 +1,8 @@
 import { cn } from "../../../shared/lib/cn";
 import { bgVariant, CategoryCardProps } from "../model/category-card.types";
+import arrowIcon from "../../../assets/icons/icon-arrow-right-top.svg";
+import cardImg from '../../../assets/images/card-1.png';
+
 
 export function CategoryCard({
   category,
@@ -16,29 +19,32 @@ export function CategoryCard({
         "active:scale-[0.97]",
         isActive
           ? "bg-[#E8FDF5] border-[#00FF7F] shadow-[0_4px_20px_rgba(0,255,127,0.25)]"
-          : `${bgVariant[category.variant || "white"]} shadow-[0_2px_12px_rgba(0,0,0,0.08)]`,
+          : `${
+              bgVariant[category.variant || "white"]
+            } shadow-[0_2px_12px_rgba(0,0,0,0.08)]`
       )}
     >
       {/* Arrow badge */}
       <div
         className={cn(
-          "absolute top-3 right-3 w-7 h-7 rounded-full flex items-center justify-center text-sm transition-colors",
-          isActive ? "bg-[#00FF7F] text-[#111]" : "bg-black/5 text-[#999]", // ← добавил фон неактивным
+          "absolute top-3 right-3 rounded-full flex items-center justify-center text-sm transition-colors p-3 shadow-[0_2px_12px_0_rgba(0,0,0,0.1)]",
+          isActive ? "bg-[#00FF7F]" : "bg-[var(--mint)] border-6 border-[var(--white)]" // ← добавил фон неактивным
         )}
       >
-        ↗
+        <img src={arrowIcon} alt="arrow icon" />
       </div>
 
-      <p className="text-[13px] font-bold text-[#111] leading-snug pr-8">
+      <p className="text-[24px] font-bold text-[var(--grey)] leading-snug pr-8">
         {category.label}
       </p>
-      <p className="text-[22px] font-black text-[#111] mt-1">
+      <p className="text-[24px] font-black text-[var(--light-grey)] mt-1">
         {category.count.toLocaleString("ru-RU")}
       </p>
 
       {/* Emoji — абсолютно в правом нижнем углу */}
-      <div className="absolute bottom-3 right-3 text-4xl opacity-75 select-none">
-        {category.emoji}
+      <div className=" bottom-3 right-3 text-4xl opacity-75 select-none">
+        {/* {category.emoji} */}
+        <img src={cardImg} alt="card image" />
       </div>
     </button>
   );

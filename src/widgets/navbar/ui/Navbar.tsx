@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Logo } from "./Logo";
+// import { Logo } from "./Logo";
 import { NavLinks } from "./NavLinks";
 import { SearchBar } from "./SearchBar";
 import { UserMenu } from "./UserMenu";
@@ -7,7 +7,8 @@ import { IconButton } from "./IconButton";
 import { MobileMenu, MobileMenuButton } from "./MobileMenu";
 import { cn } from "@/shared/lib/cn";
 import { SettingsIcon } from "@/shared/ui/SettingsIcon";
-
+import logoIcon from "../../../assets/icons/logo.svg";
+import settingsIcon from "../../../assets/icons/icon-settings.svg";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -17,10 +18,15 @@ export function Navbar() {
       <nav
         className={cn(
           "sticky top-0 z-30 flex justify-between items-center gap-4 px-4 md:px-8 py-3 md:py-4",
-          "backdrop-blur-md",
+          "backdrop-blur-md"
         )}
       >
-        <Logo className="mr-2" />
+        {/* <Logo className="mr-2" /> */}
+        <div className="logo">
+          <a href="" onClick={(e) => e.preventDefault()}>
+            <img src={logoIcon} alt="logo" />
+          </a>
+        </div>
 
         <NavLinks className="ml-2" />
 
@@ -28,7 +34,8 @@ export function Navbar() {
           <SearchBar />
           <UserMenu />
           <IconButton aria-label="Settings">
-            <SettingsIcon />
+            {/* <SettingsIcon /> */}
+            <img src={settingsIcon} alt="settings icon" />
           </IconButton>
         </div>
 

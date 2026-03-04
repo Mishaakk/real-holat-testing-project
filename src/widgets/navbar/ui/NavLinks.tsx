@@ -17,7 +17,7 @@ export function NavLinks({ className, onLinkClick }: NavLinksProps) {
             onLinkClick?.();
           }}
           className={cn(
-            "relative px-4 py-2 text-[13px] font-medium transition-colors duration-200 no-underline rounded-full",
+            "relative px-4 py-2 text-[16px] font-medium transition-colors duration-200 no-underline rounded-full",
             activeIndex === index
               ? "text-[#111] bg-[#00FF7F]/10"
               : "text-[#555] hover:text-[#111] hover:bg-black/5",
