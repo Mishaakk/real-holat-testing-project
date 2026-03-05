@@ -1,39 +1,39 @@
-import { cn } from '@/shared/lib/cn'
-import { SearchIcon } from '@/shared/ui/SearchIcon'
-import { useState, useRef, useEffect } from 'react'
-import { SearchBarProps } from '../model/SearchBar.types'
-
-
+import { cn } from "@/shared/lib/cn";
+import { useState, useRef, useEffect } from "react";
+import { SearchBarProps } from "../model/SearchBar.types";
+// import { SearchIcon } from "@/shared/ui/SearchIcon";
+import serachIcon from "../../../assets/icons/icon-search.svg";
 
 export function SearchBar({ className }: SearchBarProps) {
-  const [focused, setFocused] = useState(false)
-  const [value, setValue] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [focused, setFocused] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault()
-        inputRef.current?.focus()
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
       }
-    }
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div
       className={cn(
-        'ml-auto flex items-center gap-2 bg-white rounded-full px-4 py-2.5',
-        'transition-all duration-200 cursor-text',
+        "ml-auto flex items-center gap-2 bg-white rounded-full px-4 py-2.5",
+        "transition-all duration-200 cursor-text",
         focused
-          ? 'shadow-[0_0_0_2px_#00FF7F] w-56'
-          : 'shadow-[0_1px_8px_rgba(0,0,0,0.10)] w-44',
+          ? "shadow-[0_0_0_2px_#00FF7F] w-56"
+          : "shadow-[0_1px_8px_rgba(0,0,0,0.10)] w-44",
         className
       )}
       onClick={() => inputRef.current?.focus()}
     >
-      <SearchIcon />
+      {/* <SearchIcon /> */}
+      <img src={serachIcon} alt="search icon" />
       <input
         ref={inputRef}
         type="text"
@@ -50,5 +50,5 @@ export function SearchBar({ className }: SearchBarProps) {
         </kbd>
       )}
     </div>
-  )
+  );
 }
