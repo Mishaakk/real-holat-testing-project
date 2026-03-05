@@ -6,6 +6,10 @@ export interface User {
   role: UserRole;
   createdAt: string;
 }
+export interface Session {
+  accessToken: string;
+  user: User;
+}
 
 // Токен хранится просто в переменной — в памяти JS
 let accessToken: string | null = null;

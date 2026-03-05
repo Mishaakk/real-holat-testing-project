@@ -1,29 +1,29 @@
-// import { createBrowserRouter, Navigate } from "react-router";
-// import App from "../App";
-// import {LoginPage } from "@/pages/login/ui/LoginPage";
-// import { ProtectedRoute } from "./ProtectedRoute";
-// import { DashboardPage } from "@/pages/dashboard/ui/DashboardPage";
-// import { RegisterPage } from "@/pages/register/ui/RegisterPage";
+import { createBrowserRouter, Navigate } from "react-router";
+import App from "../App";
+import { LoginPage } from "@/pages/login/ui/LoginPage";
+import { RegisterPage } from "@/pages/register/ui/RegisterPage";
+import { DashboardPage } from "@/pages/dashboard/ui/DashboardPage";
+import { HomePage } from "@/pages/home/HomePage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
-// export const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: (
-//       // <ProtectedRoute>
-//       <App />
-//       // </ProtectedRoute>
-//     ),
-//   },
-//   {
-//     path: "/login",
-//     element: <LoginPage />,
-//   },
-//   { path: "/register", element: <RegisterPage /> },
-//   {
-//     element: <ProtectedRoute />,
-//     children: [{ path: "/dashboard", element: <DashboardPage /> }],
-//   },
-//   { path: "*", element: <Navigate to="/login" replace /> },
-// ]);
+export const router = createBrowserRouter([
+  // Публичные роуты
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
+    ],
+  },
 
-// // добавили роутинг приложения
+  // Защищённые роуты
+  {
+    element: <ProtectedRoute />,
+    children: [{ path: "/dashboard", element: <DashboardPage /> }],
+  },
+
+  // Всё остальное → логин
+  { path: "*", element: <Navigate to="/login" replace /> },
+]);
