@@ -1,52 +1,104 @@
+// MapArea.tsx
+// bun add leaflet react-leaflet @types/leaflet
+// main.tsx га қўш: import 'leaflet/dist/leaflet.css'
+
+import { useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
+import L from 'leaflet'
+
+// Leaflet маркер иконкасини тузатиш (стандарт фикс)
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+})
+
+// Донорлар нуқталари — бу маълумотларни API дан олишинг мумкин
+const DONOR_POINTS = [
+  { id: 1, name: 'Toshkent shahri',    lat: 41.2995, lng: 69.2401, count: 124, color: '#00FF7F' },
+  { id: 2, name: 'Samarqand',          lat: 39.6542, lng: 66.9597, count: 87,  color: '#3B82F6' },
+  { id: 3, name: 'Buxoro',             lat: 39.7681, lng: 64.4556, count: 56,  color: '#8B5CF6' },
+  { id: 4, name: 'Namangan',           lat: 41.0011, lng: 71.6722, count: 73,  color: '#00FF7F' },
+  { id: 5, name: 'Andijon',            lat: 40.7821, lng: 72.3442, count: 91,  color: '#3B82F6' },
+  { id: 6, name: "Farg'ona",           lat: 40.3864, lng: 71.7864, count: 68,  color: '#00FF7F' },
+  { id: 7, name: 'Qarshi',             lat: 38.8600, lng: 65.7911, count: 42,  color: '#8B5CF6' },
+  { id: 8, name: 'Nukus',              lat: 42.4600, lng: 59.6100, count: 31,  color: '#3B82F6' },
+]
+
+// Ҳар бир шаҳар учун кастом рангли маркер
+const createColorMarker = (color: string) =>
+  L.divIcon({
+    className: '',
+    html: `
+      <div style="
+        width: 14px; height: 14px;
+        background: ${color};
+        border: 2px solid white;
+        border-radius: 50%;
+        box-shadow: 0 0 8px ${color}99;
+      "></div>
+    `,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+  })
+
 export function MapArea() {
   return (
-    <div className="flex-1 rounded-2xl bg-[#E8FDF5]/60 border border-[#00FF7F]/20 relative overflow-hidden flex items-center justify-center min-h-[320px]">
-      {/* Grid bg */}
-      <div
-        className="absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage: `
-            linear-gradient(#00FF7F 1px, transparent 1px),
-            linear-gradient(90deg, #00FF7F 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-        }}
-      />
-
+    <div className="flex-1 rounded-2xl overflow-hidden relative min-h-[320px] border border-[#00FF7F]/20">
       {/* Badge */}
-      <span className="absolute top-3 left-3 bg-[#00FF7F] text-[#111] text-[11px] font-bold px-3 py-1.5 rounded-full z-10 shadow-sm">
-        Xarita (Viloyatlar + nuqtalar/cluster)
+      <span className="absolute top-3 left-3 bg-[#00FF7F] text-[#111] text-[11px] font-bold px-3 py-1.5 rounded-full z-[999] shadow-sm pointer-events-none">
+        Xarita (Viloyatlar + nuqtalar)
       </span>
 
-      {/* Uzbekistan SVG outline */}
-      <svg
-        viewBox="0 0 500 280"
-        className="w-[75%] max-w-[380px] opacity-60 drop-shadow-[0_4px_12px_rgba(0,200,100,0.3)]"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <MapContainer
+        center={[41.2995, 69.2401]} // Тошкент
+        zoom={6}
+        style={{ height: '100%', minHeight: '320px', width: '100%' }}
+        zoomControl={true}
+        scrollWheelZoom={true}
       >
-        <path
-          d="M60 120 L30 100 L20 80 L40 55 L80 40 L130 35 L170 25 L220 20 L270 30 L310 25 L350 15 L400 20 L440 35 L470 55 L480 80 L465 105 L450 125 L430 140 L410 155 L380 165 L360 175 L350 195 L330 210 L310 220 L280 225 L260 215 L240 200 L210 195 L190 205 L170 215 L150 210 L140 195 L130 180 L110 165 L85 150 L70 135 Z"
-          fill="rgba(0,255,127,0.15)"
-          stroke="#00FF7F"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
+        {/* CartoDB Dark тайллари — стилингингга мос қоронғу тема */}
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='© OpenStreetMap © CARTO'
         />
-        {/* Region dividers */}
-        <line x1="160" y1="100" x2="180" y2="180" stroke="#00FF7F" strokeWidth="1" opacity="0.3"/>
-        <line x1="250" y1="50"  x2="260" y2="200" stroke="#00FF7F" strokeWidth="1" opacity="0.3"/>
-        <line x1="340" y1="70"  x2="320" y2="190" stroke="#00FF7F" strokeWidth="1" opacity="0.3"/>
-        <line x1="100" y1="60"  x2="430" y2="100" stroke="#00FF7F" strokeWidth="1" opacity="0.2"/>
-        {/* City dots */}
-        <circle cx="245" cy="90" r="6" fill="#00FF7F" opacity="0.9"/>
-        <text x="252" y="82" fontSize="9" fill="#00FF7F" fontFamily="Inter" fontWeight="700" opacity="0.9">Toshkent</text>
-        <circle cx="140" cy="120" r="4" fill="#3B82F6" opacity="0.8"/>
-        <circle cx="330" cy="130" r="4" fill="#8B5CF6" opacity="0.8"/>
-        <circle cx="200" cy="160" r="4" fill="#00FF7F" opacity="0.7"/>
-        <circle cx="380" cy="100" r="4" fill="#3B82F6" opacity="0.8"/>
-        <circle cx="100" cy="90"  r="3" fill="#00FF7F" opacity="0.6"/>
-        <circle cx="420" cy="130" r="3" fill="#00FF7F" opacity="0.6"/>
-      </svg>
+
+        {/* Донор нуқталари */}
+        {DONOR_POINTS.map(point => (
+          <Marker
+            key={point.id}
+            position={[point.lat, point.lng]}
+            icon={createColorMarker(point.color)}
+          >
+            <Popup>
+              <div style={{ fontFamily: 'sans-serif', minWidth: 140 }}>
+                <strong style={{ fontSize: 13 }}>{point.name}</strong>
+                <br />
+                <span style={{ color: '#00c964', fontWeight: 700 }}>
+                  {point.count} донор
+                </span>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* Тошкент атрофида радиус доираси */}
+        <Circle
+          center={[41.2995, 69.2401]}
+          radius={80000}
+          pathOptions={{
+            color: '#00FF7F',
+            fillColor: '#00FF7F',
+            fillOpacity: 0.04,
+            weight: 1,
+          }}
+        />
+      </MapContainer>
     </div>
   )
 }

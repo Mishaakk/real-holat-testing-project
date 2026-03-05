@@ -1,8 +1,10 @@
+// MapSection.tsx — ўзгармади, фақат MapArea ичида реал карта
+
 import { useState } from 'react'
-import { GlassPanel, Pill } from '../../../shared/ui'
+import { GlassPanel, Pill } from '@/shared/ui'
 import { DonorList } from '../../donor-list/ui/DonorList'
 import { MapArea } from './MapArea'
-import { BarChart } from '../../../widgets/bar-chart/ui/BarChart'
+import { BarChart } from '@/widgets/bar-chart/ui/BarChart'
 
 const MAIN_TABS = ["Ma'lumotlar", 'Garfik vositalar', 'Solishtirish']
 
@@ -29,7 +31,6 @@ export function MapSection() {
         {/* Body */}
         <div className="flex gap-4">
           <DonorList />
-
           <div className="flex-1 min-h-[380px]">
             {activeTab === "Ma'lumotlar" && <MapArea />}
             {activeTab === 'Garfik vositalar' && <BarChart />}
