@@ -1,15 +1,20 @@
-import { HomePage } from '@/pages/home/ui/HomePage'
+import { HomePage } from "@/pages/home/HomePage";
+import { BrowserRouter as Router } from "react-router";
 
 
-// наш App.tsx является точкой входа нашего приложения
 export default function App() {
   return (
-    <div
-      className="min-h-screen"
-      style={{ background: 'linear-gradient(135deg, #B8F5D8 0%, #D4C5F9 60%, #C7F2E8 100%)', backgroundAttachment: 'fixed' }}
-    >
-      {/* компонент нашего приложения содержаться в homepage.tsx */}
+    <Router>
+      <div
+        className="min-h-screen"
+        style={{
+          background:
+            "linear-gradient(135deg, #B8F5D8 0%, #D4C5F9 60%, #C7F2E8 100%)",
+          backgroundAttachment: "fixed",
+        }}
+      >
       <HomePage />
-    </div>
-  )
+      </div>
+    </Router>
+  );
 }
